@@ -290,7 +290,7 @@ class GraphScene(Scene):
         ]
 
     def get_area(self, graph, t_min, t_max):
-        numerator = max(t_max - t_min, 0.0001)
+        numerator = max(t_max - t_min, 0.00001)
         dx = float(numerator) / self.num_rects
         return self.get_riemann_rectangles(
             graph,

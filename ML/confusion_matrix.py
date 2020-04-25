@@ -25,8 +25,7 @@ class ProbabilityDistribution(GraphScene):
         "x_axis_label": "P(X)",
         "y_max" : 6, 
         "y_min" : 0,
-        # "y_axis_label": "Number of Observations",
-
+        "y_axis_label": "\# of Observations",
 
         "x_tick_frequency": 0.1,
         "exclude_zero_label":False,
@@ -41,25 +40,32 @@ class ProbabilityDistribution(GraphScene):
         thr = 0.5
         threshold = self.get_vertical_line_to_graph(thr, beta_pos, DashedLine, color=YELLOW)
 
-        FP_area = self.get_area(beta_pos,0,thr)
+        FN_area = self.get_area(beta_pos,0,thr)
+        # FN_label = TextMobject("FP").shift(FN_area.get_center_of_mass())
+        # FN = VGroup(FN_area, FN_label)
         TP_area = self.get_area(beta_pos,thr,1)
         TN_area = self.get_area(beta_neg,0,thr)
-        FN_area = self.get_area(beta_neg,thr,1)
+        FP_area = self.get_area(beta_neg,thr,1)
 
 
         self.play(ShowCreation(beta_neg))
-        self.play(ShowCreation(beta_pos))
+        self.play(Transform(beta_neg.copy(), beta_pos))
+        self.wait(2)
+        # self.play(FadeIn(beta_neg2))
+
+        # self.wait(2)
         self.play(ShowCreation(threshold))
+        # self.play(Fade)
 
-        self.wait(1)
-        self.play(ShowCreation(TP_area))
-        self.play(ShowCreation(FP_area))
-        self.play(FadeOut(TP_area), FadeOut(FP_area))
+        # self.wait(1)
+        self.play(ShowCreation(FP))
+        # self.play(ShowCreation(FP_area))
+        # self.play(FadeOut(TP_area), FadeOut(FP_area))
 
-        self.play(ShowCreation(TN_area))
-        self.play(FadeOut(TN_area), ShowCreation(FN_area))
+        # self.play(ShowCreation(TN_area))
+        # self.play(FadeOut(TN_area), ShowCreation(FN_area))
+        # self.play(FadeOut(FN_area))
         
-
     
     def beta_negative(self, x):
         offset = 2.5
@@ -67,4 +73,7 @@ class ProbabilityDistribution(GraphScene):
     def beta_positive(self, x):
         offset = 2.5
         return beta.pdf(x, 10-offset, offset)
+    def beta_normal(self, x):
+        offset = 5
+        return beta.pdf(x, offset, 10-offset)
         
