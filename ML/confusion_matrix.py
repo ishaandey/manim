@@ -51,12 +51,11 @@ class ProbabilityDistribution(GraphScene):
         self.play(ShowCreation(beta_neg))
         self.play(Transform(beta_neg.copy(), beta_pos))
 
-        # self.wait(2)
         self.play(ShowCreation(threshold))
 
-        # self.wait(1)
         self.play(ShowCreation(FN_area))
-        self.play(FadeOut(FN_area), FadeOut(TP_area))
+        self.play(FadeOut(FN_area), ShowCreation(TP_area))
+        self.play(FadeOut(TP_area))
 
         self.play(ShowCreation(TN_area))
         self.play(FadeOut(TN_area), ShowCreation(FP_area))
