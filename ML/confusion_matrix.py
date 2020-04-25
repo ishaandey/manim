@@ -50,22 +50,18 @@ class ProbabilityDistribution(GraphScene):
 
         self.play(ShowCreation(beta_neg))
         self.play(Transform(beta_neg.copy(), beta_pos))
-        self.wait(2)
-        # self.play(FadeIn(beta_neg2))
 
         # self.wait(2)
         self.play(ShowCreation(threshold))
-        # self.play(Fade)
 
         # self.wait(1)
-        self.play(ShowCreation(FP))
-        # self.play(ShowCreation(FP_area))
-        # self.play(FadeOut(TP_area), FadeOut(FP_area))
+        self.play(ShowCreation(FN_area))
+        self.play(FadeOut(FN_area), FadeOut(TP_area))
 
-        # self.play(ShowCreation(TN_area))
-        # self.play(FadeOut(TN_area), ShowCreation(FN_area))
-        # self.play(FadeOut(FN_area))
-        
+        self.play(ShowCreation(TN_area))
+        self.play(FadeOut(TN_area), ShowCreation(FP_area))
+        self.play(FadeOut(FP_area))
+        self.wait(1)
     
     def beta_negative(self, x):
         offset = 2.5
