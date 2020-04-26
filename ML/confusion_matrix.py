@@ -30,23 +30,25 @@ class ProbabilityDistribution(GraphScene):
         "x_tick_frequency": 0.1,
         "exclude_zero_label":False,
         
-        "function_color" : RED,
+        "negative_color" : PURPLE,
+        "positive_color" : BLUE,
+        "wrong_color": GRAY,
     }   
     def construct(self):
         self.setup_axes(animate=True)
-        beta_neg = self.get_graph(self.beta_negative, self.function_color)
-        beta_pos = self.get_graph(self.beta_positive)
+        beta_neg = self.get_graph(self.beta_negative, self.negative_color)
+        beta_pos = self.get_graph(self.beta_positive, self.positive_color)
 
         thr = 0.5
-        threshold = self.get_vertical_line_to_graph(thr, beta_pos, DashedLine, color=YELLOW)
+        threshold = self.get_vertical_line_to_graph(thr, beta_pos, DashedLine, color=WHITE)
 
-        FN_area = self.get_area(beta_pos,0,thr)
+        FN_area = self.get_area(beta_pos,0,thr).set_color(self.wrong_color)
+        TP_area = self.get_area(beta_pos,thr,1).match_color(beta_pos)
+        TN_area = self.get_area(beta_neg,0,thr).match_color(beta_neg)
+        FP_area = self.get_area(beta_neg,thr,1).set_color(self.wrong_color)
+
         # FN_label = TextMobject("FP").shift(FN_area.get_center_of_mass())
         # FN = VGroup(FN_area, FN_label)
-        TP_area = self.get_area(beta_pos,thr,1)
-        TN_area = self.get_area(beta_neg,0,thr)
-        FP_area = self.get_area(beta_neg,thr,1)
-
 
         self.play(ShowCreation(beta_neg))
         self.play(Transform(beta_neg.copy(), beta_pos))
